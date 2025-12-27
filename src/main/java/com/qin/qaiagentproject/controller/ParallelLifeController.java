@@ -109,14 +109,20 @@ public class ParallelLifeController {
      */
     @PostMapping(value = "/quick-chat/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     @Operation(summary = "快速流式对话", description = "快速流式对话接口，无需提供chatId，系统自动创建会话")
-    public Flux<String> quickChatStream(@RequestBody @Parameter(description = "用户消息") String message) {
+    public Flux<String> quickChatStream(
+            @RequestBody @Parameter(description = "用户消息") String message,
+            @RequestParam(required = false) @Parameter(description = "会话ID（可选，如果提供则使用现有会话）") String chatId) {
         if (message == null || message.trim().isEmpty()) {
             return Flux.error(new IllegalArgumentException("消息内容不能为空"));
         }
         
-        // 自动创建会话
-        String chatId = UUID.randomUUID().toString();
-        log.info("快速流式对话: chatId={}, message={}", chatId, message);
+        // 如果没有提供chatId，自动创建新会话
+        if (chatId == null || chatId.trim().isEmpty()) {
+            chatId = UUID.randomUUID().toString();
+            log.info("快速流式对话（新会话）: chatId={}, message={}", chatId, message);
+        } else {
+            log.info("快速流式对话（现有会话）: chatId={}, message={}", chatId, message);
+        }
         
         return parallelLifeApp.doChatStream(message, chatId);
     }
