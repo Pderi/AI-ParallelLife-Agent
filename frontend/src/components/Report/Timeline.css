@@ -1,0 +1,46 @@
+.timeline-container {
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+}
+
+.timeline-item {
+  padding: 12px 0;
+}
+
+.timeline-year {
+  margin-bottom: 8px;
+}
+
+.timeline-content {
+  color: #666;
+  line-height: 1.6;
+}
+
+.timeline-content p {
+  margin: 0;
+}
+
+.timeline-empty {
+  padding: 40px;
+  text-align: center;
+  color: #999;
+}
+
+/* 深色模式 */
+[data-theme='dark'] .timeline-container,
+.dark .timeline-container {
+  background: rgba(26, 26, 46, 0.5);
+}
+
+[data-theme='dark'] .timeline-content,
+.dark .timeline-content {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+[data-theme='dark'] .timeline-empty,
+.dark .timeline-empty {
+  color: rgba(255, 255, 255, 0.5);
+}
+

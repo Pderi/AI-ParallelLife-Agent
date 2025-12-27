@@ -1,0 +1,122 @@
+.universe-detail-drawer :global(.ant-drawer-header) {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.universe-detail-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.universe-detail-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.universe-detail-content {
+  padding: 8px 0;
+}
+
+.detail-section {
+  margin-bottom: 24px;
+}
+
+.detail-section:last-child {
+  margin-bottom: 0;
+}
+
+.key-events {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.key-event-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.key-event-item:hover {
+  background: rgba(0, 0, 0, 0.04);
+  transform: translateX(4px);
+}
+
+.event-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.event-content {
+  flex: 1;
+  color: #666;
+  line-height: 1.6;
+}
+
+.probability-display {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.probability-bar {
+  flex: 1;
+  height: 24px;
+  background: #f0f0f0;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+.probability-fill {
+  height: 100%;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.probability-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  min-width: 60px;
+  text-align: right;
+}
+
+/* 深色模式 */
+[data-theme='dark'] .key-event-item,
+.dark .key-event-item {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme='dark'] .key-event-item:hover,
+.dark .key-event-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme='dark'] .event-content,
+.dark .event-content {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+[data-theme='dark'] .probability-bar,
+.dark .probability-bar {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme='dark'] .probability-text,
+.dark .probability-text {
+  color: rgba(255, 255, 255, 0.9);
+}
+

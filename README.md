@@ -263,7 +263,7 @@ async function streamChat(message, chatId) {
 
 详细API文档请访问：
 - **Swagger UI**: http://localhost:8123/api/swagger-ui.html
-- **API文档**: [docs/API接口文档.md](docs/API接口文档.md)
+- **API文档**: [docs/API接口文档.md](docs-back/API接口文档.md)
 
 ## 🎯 核心功能说明
 
@@ -314,10 +314,10 @@ mvn test
 
 ## 📚 文档
 
-- [API接口文档](docs/API接口文档.md) - 完整的API使用说明
-- [业务流程文档](docs/业务流程文档.md) - 系统架构和业务流程
-- [后端改进计划](docs/后端改进计划.md) - 改进计划和路线图
-- [详细设计文档](docs/平行宇宙人生模拟器-详细设计.md) - 产品设计文档
+- [API接口文档](docs-back/API接口文档.md) - 完整的API使用说明
+- [业务流程文档](docs-back/业务流程文档.md) - 系统架构和业务流程
+- [后端改进计划](docs-back/后端改进计划.md) - 改进计划和路线图
+- [详细设计文档](docs-back/平行宇宙人生模拟器-详细设计.md) - 产品设计文档
 
 ## 🔧 开发指南
 
@@ -366,7 +366,7 @@ A: 修改 `ParallelLifeVectorStoreConfig.java`，可以切换到PostgreSQL+pgvec
 
 ### 改进计划
 
-详细的改进计划请查看：[后端改进计划](docs/后端改进计划.md)
+详细的改进计划请查看：[后端改进计划](docs-back/后端改进计划.md)
 
 **优先级排序**：
 1. 🔴 **P0（紧急）**：API密钥管理、工具安全控制、数据持久化

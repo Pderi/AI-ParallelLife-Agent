@@ -1,0 +1,136 @@
+.comparison-view {
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.comparison-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.comparison-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.comparison-content {
+  min-height: 400px;
+}
+
+.comparison-table {
+  background: transparent;
+}
+
+.comparison-table :global(.ant-table-thead > tr > th) {
+  background: rgba(102, 126, 234, 0.05);
+  font-weight: 600;
+}
+
+.radar-charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.radar-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.comparison-cards {
+  margin-top: 16px;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.comparison-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.comparison-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+}
+
+.card-header {
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.card-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.metric-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.metric-row:last-child {
+  border-bottom: none;
+}
+
+.metric-row span:first-child {
+  color: #666;
+  font-size: 14px;
+}
+
+.metric-row span:last-child {
+  font-weight: 600;
+  color: #333;
+}
+
+/* 深色模式 */
+[data-theme='dark'] .comparison-view,
+.dark .comparison-view {
+  background: rgba(26, 26, 46, 0.95);
+}
+
+[data-theme='dark'] .comparison-table :global(.ant-table-thead > tr > th),
+.dark .comparison-table :global(.ant-table-thead > tr > th) {
+  background: rgba(102, 126, 234, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+[data-theme='dark'] .card-header,
+.dark .card-header {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme='dark'] .metric-row,
+.dark .metric-row {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme='dark'] .metric-row span:first-child,
+.dark .metric-row span:first-child {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+[data-theme='dark'] .metric-row span:last-child,
+.dark .metric-row span:last-child {
+  color: rgba(255, 255, 255, 0.9);
+}
+

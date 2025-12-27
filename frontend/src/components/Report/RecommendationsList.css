@@ -1,0 +1,110 @@
+.recommendations-list {
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.recommendations-header {
+  margin-bottom: 24px;
+}
+
+.recommendations-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.recommendations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.recommendation-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.recommendation-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+}
+
+.recommendation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.recommendation-number {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.recommendation-content {
+  flex: 1;
+  margin-bottom: 16px;
+}
+
+.recommendation-content p {
+  margin: 0;
+  color: #666;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+.recommendation-actions {
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.recommendations-empty {
+  padding: 40px;
+  text-align: center;
+  color: #999;
+}
+
+/* 深色模式 */
+[data-theme='dark'] .recommendations-list,
+.dark .recommendations-list {
+  background: rgba(26, 26, 46, 0.95);
+}
+
+[data-theme='dark'] .recommendation-content p,
+.dark .recommendation-content p {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+[data-theme='dark'] .recommendation-actions,
+.dark .recommendation-actions {
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme='dark'] .recommendations-empty,
+.dark .recommendations-empty {
+  color: rgba(255, 255, 255, 0.5);
+}
+
