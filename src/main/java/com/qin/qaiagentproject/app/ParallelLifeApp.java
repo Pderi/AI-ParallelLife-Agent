@@ -14,6 +14,7 @@ import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.tool.ToolCallback;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 
@@ -118,6 +119,19 @@ public class ParallelLifeApp {
     }
 
     /**
+     * 流式对话：模拟平行人生（流式输出）
+     */
+    public Flux<String> doChatStream(String message, String chatId) {
+        return chatClient
+                .prompt()
+                .user(message)
+                .advisors(spec -> spec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)
+                        .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 10))
+                .stream()
+                .content();
+    }
+
+    /**
      * 生成结构化的平行人生报告
      */
     public ParallelLifeReport doChatWithReport(String message, String chatId) {
@@ -156,6 +170,23 @@ public class ParallelLifeApp {
         return content;
     }
 
+    /**
+     * 流式RAG增强对话：结合知识库进行模拟（流式输出）
+     */
+    public Flux<String> doChatWithRagStream(String message, String chatId) {
+        return chatClient
+                .prompt()
+                .user(message)
+                .advisors(spec -> spec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)
+                        .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 10))
+                // 开启日志，便于观察效果
+                .advisors(new MyLoggerAdvisor())
+                // 应用知识库问答
+                .advisors(new QuestionAnswerAdvisor(parallelLifeVectorStore))
+                .stream()
+                .content();
+    }
+
     @Resource
     private ToolCallback[] allTools;
 
@@ -176,6 +207,22 @@ public class ParallelLifeApp {
         String content = response.getResult().getOutput().getText();
         log.info("content: {}", content);
         return content;
+    }
+
+    /**
+     * 流式工具调用对话：可以搜索行业数据、生成PDF报告等（流式输出）
+     */
+    public Flux<String> doChatWithToolsStream(String message, String chatId) {
+        return chatClient
+                .prompt()
+                .user(message)
+                .advisors(spec -> spec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)
+                        .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 10))
+                // 开启日志，便于观察效果
+                .advisors(new MyLoggerAdvisor())
+                .tools(allTools)
+                .stream()
+                .content();
     }
 }
 
