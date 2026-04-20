@@ -134,7 +134,7 @@ public class ParallelLifeController {
     @Operation(summary = "快速对话（非流式）", description = "快速对话接口，无需提供chatId，系统自动创建会话（推荐使用流式接口）")
     public Result<ChatResponse> quickChat(@RequestBody @Parameter(description = "用户消息") String message) {
         if (message == null || message.trim().isEmpty()) {
-            return Result.error(400, "消息内容不能为空");
+            throw new IllegalArgumentException("消息内容不能为空");
         }
         
         // 自动创建会话

@@ -14,9 +14,14 @@ spring:
    #     dimensions: 1536
    #     distance-type: COSINE_DISTANCE
    #     max-document-batch-size: 10000 # Optional: Maximum number of documents per batch
-# searchApi
-search-api:
-  api-key: ehekEpeNDMpfamaYoszbySqp
+tool:
+  terminal:
+    enabled: false
+    allowed-commands:
+      - dir
+      - echo
+      - type
+      - findstr
 
 server:
   port: 8123

@@ -1,5 +1,6 @@
 package com.qin.qaiagentproject.common;
 
+import com.qin.qaiagentproject.exception.ErrorCode;
 import lombok.Data;
 
 /**
@@ -43,7 +44,7 @@ public class Result<T> {
      * 成功响应
      */
     public static <T> Result<T> success(T data) {
-        return new Result<>(200, "操作成功", data);
+        return new Result<>(ErrorCode.SUCCESS.getCode(), ErrorCode.SUCCESS.getDefaultMessage(), data);
     }
     
     /**
@@ -65,6 +66,13 @@ public class Result<T> {
      */
     public static <T> Result<T> error(Integer code, String message) {
         return new Result<>(code, message, null);
+    }
+
+    /**
+     * 失败响应（错误码枚举）
+     */
+    public static <T> Result<T> error(ErrorCode errorCode, String message) {
+        return new Result<>(errorCode.getCode(), message, null);
     }
 }
 
