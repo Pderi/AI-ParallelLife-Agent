@@ -76,29 +76,29 @@ export function getUniverseColor(index: number): {
 } {
   const colors = [
     {
-      gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      primary: '#667eea',
-      secondary: '#764ba2',
+      gradient: 'linear-gradient(135deg, #b8734a 0%, #8b5e3c 100%)',
+      primary: '#b8734a',
+      secondary: '#8b5e3c',
     },
     {
-      gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-      primary: '#f093fb',
-      secondary: '#f5576c',
+      gradient: 'linear-gradient(135deg, #4a7c59 0%, #2d5a3d 100%)',
+      primary: '#4a7c59',
+      secondary: '#2d5a3d',
     },
     {
-      gradient: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)',
-      primary: '#ffecd2',
-      secondary: '#fcb69f',
+      gradient: 'linear-gradient(135deg, #5b7b8a 0%, #3d5a6b 100%)',
+      primary: '#5b7b8a',
+      secondary: '#3d5a6b',
     },
     {
-      gradient: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
-      primary: '#a8edea',
-      secondary: '#fed6e3',
+      gradient: 'linear-gradient(135deg, #c4a882 0%, #9a7d5c 100%)',
+      primary: '#c4a882',
+      secondary: '#9a7d5c',
     },
     {
-      gradient: 'linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%)',
-      primary: '#84fab0',
-      secondary: '#8fd3f4',
+      gradient: 'linear-gradient(135deg, #8b4d5a 0%, #6b3a45 100%)',
+      primary: '#8b4d5a',
+      secondary: '#6b3a45',
     },
   ]
   

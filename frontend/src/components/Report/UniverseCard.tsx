@@ -33,7 +33,7 @@ export const UniverseCard: React.FC<UniverseCardProps> = ({
       <Card
         className="universe-card"
         style={{
-          background: 'rgba(255, 255, 255, 0.95)',
+          background: 'var(--color-surface-elevated)',
           backdropFilter: 'blur(20px)',
           border: `2px solid ${colors.primary}40`,
           borderRadius: 20,

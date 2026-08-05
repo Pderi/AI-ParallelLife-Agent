@@ -21,16 +21,13 @@
   margin: 0 0 12px 0 !important;
   font-size: 32px;
   font-weight: 700;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--color-text);
   line-height: 1.2;
 }
 
 .report-situation {
   font-size: 16px;
-  color: #666;
+  color: var(--color-text-secondary);
   margin: 0;
   line-height: 1.6;
 }
@@ -57,9 +54,10 @@
 
 .report-comparison-section {
   padding: 24px;
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--color-surface);
   backdrop-filter: blur(10px);
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
   margin: 24px 0;
 }
 
@@ -67,12 +65,12 @@
   margin-bottom: 16px;
   font-size: 20px;
   font-weight: 600;
-  color: #333;
+  color: var(--color-text);
 }
 
 .report-comparison-section p {
   margin: 0;
-  color: #666;
+  color: var(--color-text-secondary);
   line-height: 1.8;
   font-size: 15px;
 }
@@ -105,7 +103,7 @@
 
 [data-theme='dark'] .report-comparison-section,
 .dark .report-comparison-section {
-  background: rgba(26, 26, 46, 0.5);
+  background: var(--color-bg-dark-subtle);
 }
 
 [data-theme='dark'] .report-comparison-section h4,

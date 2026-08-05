@@ -52,11 +52,11 @@
 
 .message-header :global(.ant-typography) {
   font-weight: 500;
-  color: rgba(0, 0, 0, 0.65);
+  color: var(--color-text-secondary);
 }
 
 .ai-message .message-header :global(.ant-typography) {
-  color: rgba(0, 0, 0, 0.65);
+  color: var(--color-text-secondary);
 }
 
 .user-message .message-header :global(.ant-typography) {
@@ -64,44 +64,41 @@
 }
 
 .message-text {
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--color-surface);
+  color: var(--color-text);
   backdrop-filter: blur(10px);
   padding: 16px 20px;
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
   word-wrap: break-word;
   word-break: break-word;
   line-height: 1.6;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border);
   position: relative;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   overflow-wrap: break-word;
   font-size: 14px;
 }
 
 .message-text:hover {
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow-lg);
   transform: translateY(-1px);
 }
 
 .user-message .message-text {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: var(--color-secondary);
+  color: #ffffff;
   border: none;
-  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3), 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-md);
 }
 
 .user-message .message-text:hover {
-  box-shadow: 0 6px 24px rgba(102, 126, 234, 0.4), 0 2px 4px rgba(0, 0, 0, 0.12);
+  background: var(--color-secondary-hover);
+  transform: translateY(-1px);
 }
 
 .user-message .message-text * {
   color: white !important;
-}
-
-.ai-message .message-text {
-  background: rgba(255, 255, 255, 0.95);
-  color: #333;
 }
 
 .ai-message .message-text::before {
@@ -113,8 +110,7 @@
   height: 0;
   border-style: solid;
   border-width: 8px 8px 8px 0;
-  border-color: transparent rgba(255, 255, 255, 0.95) transparent transparent;
-  filter: drop-shadow(-2px 0 2px rgba(0, 0, 0, 0.05));
+  border-color: transparent var(--color-surface) transparent transparent;
 }
 
 .user-message .message-text::after {
@@ -126,7 +122,7 @@
   height: 0;
   border-style: solid;
   border-width: 8px 0 8px 8px;
-  border-color: transparent transparent transparent #764ba2;
+  border-color: transparent transparent transparent var(--color-secondary);
   filter: drop-shadow(2px 0 2px rgba(0, 0, 0, 0.1));
 }
 
@@ -134,7 +130,7 @@
   display: inline-block;
   margin-left: 4px;
   animation: blink 1s infinite;
-  color: #667eea;
+  color: var(--color-primary);
   font-weight: bold;
   font-size: 1.1em;
 }
@@ -221,16 +217,16 @@
 }
 
 .message-text .markdown-li::marker {
-  color: #667eea;
+  color: var(--color-primary);
 }
 
 .message-text .markdown-blockquote {
-  border-left: 4px solid #667eea;
+  border-left: 4px solid var(--color-primary);
   padding: 0.8em 1em;
   margin: 1em 0;
-  background: rgba(102, 126, 234, 0.05);
+  background: var(--color-primary-light);
   border-radius: 6px;
-  color: rgba(0, 0, 0, 0.7);
+  color: var(--color-text-secondary);
   font-style: italic;
   line-height: 1.75;
 }
@@ -277,15 +273,15 @@
 }
 
 .message-text .markdown-thead {
-  background: rgba(102, 126, 234, 0.1);
+  background: var(--color-primary-light);
 }
 
 .message-text .markdown-th {
   padding: 0.75em 1em;
   text-align: left;
   font-weight: 600;
-  border-bottom: 2px solid rgba(102, 126, 234, 0.3);
-  color: #667eea;
+  border-bottom: 2px solid var(--color-primary-border);
+  color: var(--color-primary);
 }
 
 .message-text .markdown-td {
@@ -298,7 +294,7 @@
 }
 
 .message-text .markdown-tr:hover {
-  background: rgba(102, 126, 234, 0.03);
+  background: var(--color-primary-light);
 }
 
 .message-text .markdown-hr {
@@ -319,15 +315,15 @@
 }
 
 .message-text .markdown-link {
-  color: #667eea;
+  color: var(--color-primary);
   text-decoration: none;
-  border-bottom: 1px solid rgba(102, 126, 234, 0.3);
+  border-bottom: 1px solid var(--color-primary-border);
   transition: all 0.2s ease;
 }
 
 .message-text .markdown-link:hover {
-  color: #764ba2;
-  border-bottom-color: #764ba2;
+  color: var(--color-primary-hover);
+  border-bottom-color: var(--color-primary-hover);
 }
 
 /* 用户消息中的Markdown样式覆盖 */
@@ -403,14 +399,14 @@
 }
 
 .action-button {
-  color: #667eea !important;
-  border: 1px solid rgba(102, 126, 234, 0.3) !important;
+  color: var(--color-primary) !important;
+  border: 1px solid var(--color-primary-border) !important;
   border-radius: 12px;
   padding: 4px 12px;
   height: auto;
   font-size: 12px;
-  transition: all 0.3s ease;
-  background: rgba(102, 126, 234, 0.05) !important;
+  transition: all 0.2s ease;
+  background: var(--color-primary-light) !important;
   display: inline-flex !important;
   align-items: center;
   gap: 4px;
@@ -418,11 +414,11 @@
 }
 
 .action-button:hover {
-  color: #764ba2 !important;
-  border-color: rgba(118, 75, 162, 0.5) !important;
-  background: rgba(118, 75, 162, 0.1) !important;
+  color: var(--color-primary-hover) !important;
+  border-color: var(--color-primary) !important;
+  background: var(--color-primary-border) !important;
   transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+  box-shadow: var(--shadow-sm);
 }
 
 .action-button:active {

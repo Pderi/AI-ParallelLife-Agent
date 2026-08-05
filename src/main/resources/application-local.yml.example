@@ -1,0 +1,20 @@
+# 复制为 application-local.yml（已在 .gitignore，勿提交密码）
+# 启用三层记忆 PG 模式前，请先准备好本地 PostgreSQL 15+ 并安装 pgvector
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/agent_memory
+    username: ${PG_USER:postgres}
+    password: ${PG_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+
+memory:
+  provider: pg
+  warm-top-k: 3
+  rag-top-k: 3
+  cold-recent-rounds: 3
+  extract-min-turns: 2
+  embedding-dimensions: 1536
+  seed-rag-on-startup: true
+
+# 按需保留你现有的 spring.ai / dashscope 等本地密钥配置

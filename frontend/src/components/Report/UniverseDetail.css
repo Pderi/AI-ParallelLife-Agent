@@ -1,5 +1,5 @@
 .universe-detail-drawer :global(.ant-drawer-header) {
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  background: var(--color-primary-light);
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
@@ -61,7 +61,7 @@
 
 .event-content {
   flex: 1;
-  color: #666;
+  color: var(--color-text-secondary);
   line-height: 1.6;
 }
 
@@ -89,7 +89,7 @@
 .probability-text {
   font-size: 24px;
   font-weight: 700;
-  color: #333;
+  color: var(--color-text);
   min-width: 60px;
   text-align: right;
 }

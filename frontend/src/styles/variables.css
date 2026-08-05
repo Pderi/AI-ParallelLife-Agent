@@ -1,0 +1,68 @@
+:root {
+  /* 暖纸质感 */
+  --color-bg: #f4f1eb;
+  --color-bg-subtle: #ebe6de;
+  --color-surface: #ffffff;
+  --color-surface-elevated: rgba(255, 255, 255, 0.96);
+  --color-surface-hover: #faf9f7;
+  --color-surface-solid: #ffffff;
+  --color-text: #2c2a26;
+  --color-text-secondary: #6b6560;
+  --color-text-muted: #9a958f;
+
+  /* 主色 — 铜赭 */
+  --color-primary: #b8734a;
+  --color-primary-hover: #9d6140;
+  --color-primary-light: rgba(184, 115, 74, 0.1);
+  --color-primary-border: rgba(184, 115, 74, 0.22);
+  --color-primary-glow: rgba(184, 115, 74, 0.2);
+
+  /* 辅色 — 墨绿灰 */
+  --color-secondary: #3d4f5f;
+  --color-secondary-hover: #2f3d4a;
+  --color-secondary-light: rgba(61, 79, 95, 0.08);
+
+  --color-border: rgba(44, 42, 38, 0.1);
+  --color-border-strong: rgba(44, 42, 38, 0.22);
+  --color-border-input: rgba(44, 42, 38, 0.28);
+  --shadow-sm: 0 2px 8px rgba(44, 42, 38, 0.06);
+  --shadow-md: 0 4px 20px rgba(44, 42, 38, 0.08);
+  --shadow-lg: 0 8px 32px rgba(44, 42, 38, 0.1);
+  --shadow-glow: 0 4px 16px rgba(184, 115, 74, 0.15);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+
+  --color-bg-dark: #1c1b19;
+  --color-bg-dark-subtle: #252422;
+  --color-surface-dark: #2a2927;
+  --color-surface-dark-elevated: rgba(42, 41, 39, 0.96);
+  --color-text-dark: rgba(255, 255, 255, 0.92);
+  --color-text-dark-secondary: rgba(255, 255, 255, 0.65);
+  --color-primary-dark: #d4936a;
+  --color-primary-dark-light: rgba(212, 147, 106, 0.15);
+  --color-border-dark: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme='dark'] {
+  --color-bg: #1c1b19;
+  --color-bg-subtle: #252422;
+  --color-surface: #2a2927;
+  --color-surface-elevated: rgba(42, 41, 39, 0.96);
+  --color-surface-hover: #323130;
+  --color-surface-solid: #2a2927;
+  --color-text: rgba(255, 255, 255, 0.92);
+  --color-text-secondary: rgba(255, 255, 255, 0.65);
+  --color-text-muted: rgba(255, 255, 255, 0.45);
+  --color-primary: #d4936a;
+  --color-primary-hover: #c17f59;
+  --color-primary-light: rgba(212, 147, 106, 0.15);
+  --color-primary-border: rgba(212, 147, 106, 0.3);
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-border-strong: rgba(212, 147, 106, 0.25);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.3);
+}

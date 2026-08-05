@@ -1,6 +1,6 @@
 .timeline-container {
   padding: 20px;
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--color-surface);
   border-radius: 16px;
   backdrop-filter: blur(10px);
 }
@@ -14,7 +14,7 @@
 }
 
 .timeline-content {
-  color: #666;
+  color: var(--color-text-secondary);
   line-height: 1.6;
 }
 
@@ -31,7 +31,7 @@
 /* 深色模式 */
 [data-theme='dark'] .timeline-container,
 .dark .timeline-container {
-  background: rgba(26, 26, 46, 0.5);
+  background: var(--color-bg-dark-subtle);
 }
 
 [data-theme='dark'] .timeline-content,

@@ -9,49 +9,46 @@
 
 .chat-input-options :global(.ant-checkbox-wrapper) {
   padding: 6px 12px;
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(10px);
+  background: var(--color-surface);
   border-radius: 16px;
-  border: 1px solid rgba(102, 126, 234, 0.2);
-  transition: all 0.3s ease;
+  border: 1px solid var(--color-border-input);
+  transition: all 0.2s ease;
   font-weight: 500;
-  color: #667eea;
+  color: var(--color-text-secondary);
 }
 
 .chat-input-options :global(.ant-checkbox-wrapper:hover) {
-  background: rgba(255, 255, 255, 0.8);
-  border-color: rgba(102, 126, 234, 0.4);
-  transform: translateY(-1px);
+  border-color: var(--color-primary-border);
+  color: var(--color-primary);
 }
 
 .chat-input-options :global(.ant-checkbox-wrapper-checked) {
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
-  border-color: rgba(102, 126, 234, 0.4);
+  background: var(--color-primary-light);
+  border-color: var(--color-primary-border);
+  color: var(--color-primary);
 }
 
 .chat-input-options :global(.ant-checkbox-checked .ant-checkbox-inner) {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-color: #667eea;
+  background: var(--color-primary);
+  border-color: var(--color-primary);
 }
 
 .chat-input-wrapper {
   display: flex;
   align-items: flex-end;
   gap: 12px;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(20px);
-  padding: 16px 20px;
-  border-radius: 28px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  transition: all 0.3s ease;
+  background: var(--color-surface);
+  padding: 14px 18px;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  border: 1.5px solid var(--color-border-input);
+  transition: all 0.2s ease;
 }
 
 .chat-input-wrapper:focus-within {
-  box-shadow: 0 12px 40px rgba(102, 126, 234, 0.25);
-  border-color: rgba(102, 126, 234, 0.6);
-  background: rgba(255, 255, 255, 0.98);
-  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(44, 42, 38, 0.38);
+  transform: translateY(-1px);
 }
 
 .chat-input-wrapper :global(.ant-input) {
@@ -60,6 +57,7 @@
   box-shadow: none;
   font-size: 15px;
   padding: 8px 0;
+  color: var(--color-text);
 }
 
 .chat-input-wrapper :global(.ant-input:focus),
@@ -68,25 +66,27 @@
   box-shadow: none;
 }
 
+.chat-input-wrapper :global(.ant-input::placeholder) {
+  color: var(--color-text-muted);
+}
+
 .chat-input-wrapper :global(.ant-btn-primary) {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border: none;
-  height: 44px;
-  padding: 0 24px;
-  border-radius: 22px;
+  background: var(--color-primary);
+  border: 1px solid rgba(44, 42, 38, 0.15);
+  height: 42px;
+  padding: 0 22px;
+  border-radius: 21px;
   font-weight: 600;
-  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
-  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
 }
 
 .chat-input-wrapper :global(.ant-btn-primary:hover:not(:disabled)) {
-  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
-  transform: translateY(-2px);
+  background: var(--color-primary-hover);
 }
 
 .chat-input-wrapper :global(.ant-btn-primary:active:not(:disabled)) {
-  transform: translateY(0);
+  transform: scale(0.98);
 }
 
 .chat-input-wrapper :global(.ant-btn-primary:disabled) {
@@ -94,38 +94,21 @@
   box-shadow: none;
 }
 
-/* 深色模式下的输入框 */
-[data-theme='dark'] .chat-input-options :global(.ant-checkbox-wrapper),
-.dark .chat-input-options :global(.ant-checkbox-wrapper) {
-  background: rgba(26, 26, 46, 0.6);
-  border-color: rgba(102, 126, 234, 0.3);
-  color: #a5b4fc;
+[data-theme='dark'] .chat-input-options :global(.ant-checkbox-wrapper) {
+  background: var(--color-surface-dark);
+  border-color: var(--color-border-dark);
+  color: var(--color-text-dark-secondary);
 }
 
-[data-theme='dark'] .chat-input-options :global(.ant-checkbox-wrapper:hover),
-.dark .chat-input-options :global(.ant-checkbox-wrapper:hover) {
-  background: rgba(26, 26, 46, 0.8);
+[data-theme='dark'] .chat-input-wrapper {
+  background: var(--color-surface-dark);
+  border-color: var(--color-border-dark);
 }
 
-[data-theme='dark'] .chat-input-wrapper,
-.dark .chat-input-wrapper {
-  background: rgba(26, 26, 46, 0.9);
-  border-color: rgba(255, 255, 255, 0.1);
+[data-theme='dark'] .chat-input-wrapper :global(.ant-input) {
+  color: var(--color-text-dark);
 }
 
-[data-theme='dark'] .chat-input-wrapper:focus-within,
-.dark .chat-input-wrapper:focus-within {
-  background: rgba(26, 26, 46, 0.98);
-  border-color: rgba(102, 126, 234, 0.6);
+[data-theme='dark'] .chat-input-wrapper :global(.ant-input::placeholder) {
+  color: rgba(255, 255, 255, 0.35);
 }
-
-[data-theme='dark'] .chat-input-wrapper :global(.ant-input),
-.dark .chat-input-wrapper :global(.ant-input) {
-  color: rgba(255, 255, 255, 0.9);
-}
-
-[data-theme='dark'] .chat-input-wrapper :global(.ant-input::placeholder),
-.dark .chat-input-wrapper :global(.ant-input::placeholder) {
-  color: rgba(255, 255, 255, 0.4);
-}
-

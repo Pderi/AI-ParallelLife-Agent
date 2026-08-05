@@ -3,17 +3,17 @@ spring:
     name: q-AI-agent-Project-Backend
   profiles:
     active: local
-  #datasource:
-   # url: jdbc:postgresql://rm-cn-9me4djll40004czo.rwlb.rds.aliyuncs.com:5432/q_ai_agent
-   # username: my_user
-   # password: Qq#110176418
-  #ai:
-   # vectorstore:
-   #   pgvector:
-   #     index-type: HNSW
-   #     dimensions: 1536
-   #     distance-type: COSINE_DISTANCE
-   #     max-document-batch-size: 10000 # Optional: Maximum number of documents per batch
+
+# 三层记忆 MVP：默认 legacy（kryo），本地切 pg 见 application-local.yml.example
+memory:
+  provider: legacy
+  warm-top-k: 3
+  rag-top-k: 3
+  cold-recent-rounds: 3
+  extract-min-turns: 2
+  embedding-dimensions: 1536
+  seed-rag-on-startup: true
+
 tool:
   terminal:
     enabled: false

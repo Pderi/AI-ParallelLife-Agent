@@ -14,7 +14,7 @@ import java.util.List;
 
 @Component
 @Slf4j
-class ParallelLifeDocumentLoader {
+public class ParallelLifeDocumentLoader {
 
     private final ResourcePatternResolver resourcePatternResolver;
 

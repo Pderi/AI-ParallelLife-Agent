@@ -1,9 +1,10 @@
 .comparison-view {
   padding: 24px;
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--color-surface-elevated);
   backdrop-filter: blur(20px);
-  border-radius: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border);
 }
 
 .comparison-header {
@@ -17,10 +18,7 @@
   margin: 0;
   font-size: 20px;
   font-weight: 700;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--color-text);
 }
 
 .comparison-content {
@@ -32,7 +30,7 @@
 }
 
 .comparison-table :global(.ant-table-thead > tr > th) {
-  background: rgba(102, 126, 234, 0.05);
+  background: var(--color-primary-light);
   font-weight: 600;
 }
 
@@ -93,25 +91,25 @@
 }
 
 .metric-row span:first-child {
-  color: #666;
+  color: var(--color-text-secondary);
   font-size: 14px;
 }
 
 .metric-row span:last-child {
   font-weight: 600;
-  color: #333;
+  color: var(--color-text);
 }
 
 /* 深色模式 */
 [data-theme='dark'] .comparison-view,
 .dark .comparison-view {
-  background: rgba(26, 26, 46, 0.95);
+  background: var(--color-surface-dark-elevated);
 }
 
 [data-theme='dark'] .comparison-table :global(.ant-table-thead > tr > th),
 .dark .comparison-table :global(.ant-table-thead > tr > th) {
-  background: rgba(102, 126, 234, 0.1);
-  color: rgba(255, 255, 255, 0.9);
+  background: var(--color-primary-dark-light);
+  color: var(--color-text-dark);
 }
 
 [data-theme='dark'] .card-header,

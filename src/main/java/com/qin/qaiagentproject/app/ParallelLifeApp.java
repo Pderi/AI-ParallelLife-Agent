@@ -1,9 +1,12 @@
 package com.qin.qaiagentproject.app;
 
-import com.qin.qaiagentproject.advisor.MyLoggerAdvisor;
 import com.qin.qaiagentproject.advisor.ForbiddenWordAdvisor;
+import com.qin.qaiagentproject.advisor.MyLoggerAdvisor;
 import com.qin.qaiagentproject.chatmeomery.FileBasedChatMemory;
-import jakarta.annotation.Resource;
+import com.qin.qaiagentproject.config.MemoryProperties;
+import com.qin.qaiagentproject.context.ContextBuildRequest;
+import com.qin.qaiagentproject.context.ContextManager;
+import com.qin.qaiagentproject.context.ContextPackage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
@@ -13,7 +16,9 @@ import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.tool.ToolCallback;
 import org.springframework.ai.vectorstore.VectorStore;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import reactor.core.publisher.Flux;
 
 import java.util.List;
@@ -26,6 +31,10 @@ import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvis
 public class ParallelLifeApp {
 
     private final ChatClient chatClient;
+    private final MemoryProperties memoryProperties;
+    private final ObjectProvider<ContextManager> contextManagerProvider;
+    private final ObjectProvider<VectorStore> parallelLifeVectorStoreProvider;
+    private final ObjectProvider<ToolCallback[]> allToolsProvider;
 
     private static final String SYSTEM_PROMPT = """
             你是一位资深的人生规划师和未来学家，擅长通过多维度分析模拟不同人生路径。
@@ -65,23 +74,34 @@ public class ParallelLifeApp {
             帮你预览不同路径的可能结果。"
             """;
 
-    public ParallelLifeApp(ChatModel dashscopeChatModel) {
-        // 初始化基于文件的对话记忆
-        String fileDir = System.getProperty("user.dir") + "/tmp/chat-memory";
-        ChatMemory chatMemory = new FileBasedChatMemory(fileDir);
-        chatClient = ChatClient.builder(dashscopeChatModel)
+    public ParallelLifeApp(ChatModel dashscopeChatModel,
+                           MemoryProperties memoryProperties,
+                           ObjectProvider<ContextManager> contextManagerProvider,
+                           ObjectProvider<VectorStore> parallelLifeVectorStoreProvider,
+                           ObjectProvider<ToolCallback[]> allToolsProvider) {
+        this.memoryProperties = memoryProperties;
+        this.contextManagerProvider = contextManagerProvider;
+        this.parallelLifeVectorStoreProvider = parallelLifeVectorStoreProvider;
+        this.allToolsProvider = allToolsProvider;
+
+        ChatClient.Builder builder = ChatClient.builder(dashscopeChatModel)
                 .defaultSystem(SYSTEM_PROMPT)
                 .defaultAdvisors(
-                        new MessageChatMemoryAdvisor(chatMemory),
                         new MyLoggerAdvisor(),
                         new ForbiddenWordAdvisor()
-                )
-                .build();
+                );
+
+        // pg 模式由 ContextManager 提供会话上下文，避免与 cold_memory 双写
+        if (memoryProperties.isLegacyProvider()) {
+            String fileDir = System.getProperty("user.dir") + "/tmp/chat-memory";
+            ChatMemory chatMemory = new FileBasedChatMemory(fileDir);
+            builder.defaultAdvisors(new MessageChatMemoryAdvisor(chatMemory));
+        }
+
+        this.chatClient = builder.build();
+        log.info("ParallelLifeApp 初始化完成, memory.provider={}", memoryProperties.getProvider());
     }
 
-    /**
-     * 平行人生报告
-     */
     public record ParallelLifeReport(
             String title,
             String currentSituation,
@@ -89,9 +109,6 @@ public class ParallelLifeApp {
             String comparison,
             List<String> recommendations
     ) {
-        /**
-         * 平行宇宙
-         */
         public record Universe(
                 String name,
                 String description,
@@ -102,10 +119,17 @@ public class ParallelLifeApp {
         ) {}
     }
 
-    /**
-     * 基础对话：模拟平行人生
-     */
     public String doChat(String message, String chatId) {
+        return doChat(message, chatId, null, false);
+    }
+
+    public String doChat(String message, String chatId, String userId, boolean useRag) {
+        if (memoryProperties.isPgProvider()) {
+            return doChatWithPgMemory(message, chatId, userId, useRag);
+        }
+        if (useRag) {
+            return doChatWithRagLegacy(message, chatId);
+        }
         ChatResponse response = chatClient
                 .prompt()
                 .user(message)
@@ -118,10 +142,17 @@ public class ParallelLifeApp {
         return content;
     }
 
-    /**
-     * 流式对话：模拟平行人生（流式输出）
-     */
     public Flux<String> doChatStream(String message, String chatId) {
+        return doChatStream(message, chatId, null, false);
+    }
+
+    public Flux<String> doChatStream(String message, String chatId, String userId, boolean useRag) {
+        if (memoryProperties.isPgProvider()) {
+            return doChatStreamWithPgMemory(message, chatId, userId, useRag);
+        }
+        if (useRag) {
+            return doChatWithRagStreamLegacy(message, chatId);
+        }
         return chatClient
                 .prompt()
                 .user(message)
@@ -131,38 +162,135 @@ public class ParallelLifeApp {
                 .content();
     }
 
-    /**
-     * 生成结构化的平行人生报告
-     */
     public ParallelLifeReport doChatWithReport(String message, String chatId) {
         ParallelLifeReport report = chatClient
                 .prompt()
                 .system(SYSTEM_PROMPT + "\n\n每次对话后都要生成平行人生报告，包含：标题、当前情况、多个平行宇宙（每个宇宙包含名称、描述、时间线、关键事件、人生指标、实现概率）、对比分析、建议列表。")
                 .user(message)
-                .advisors(spec -> spec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)
-                        .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 30))
+                .advisors(spec -> {
+                    if (memoryProperties.isLegacyProvider()) {
+                        spec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)
+                                .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 30);
+                    }
+                })
                 .call()
                 .entity(ParallelLifeReport.class);
         log.info("parallelLifeReport: {}", report);
         return report;
     }
 
-    @Resource
-    private VectorStore parallelLifeVectorStore;
-
-    /**
-     * RAG增强对话：结合知识库进行模拟
-     */
+    /** @deprecated 请使用 doChat(..., useRag=true)；保留以兼容旧调用 */
     public String doChatWithRag(String message, String chatId) {
+        return doChat(message, chatId, null, true);
+    }
+
+    public Flux<String> doChatWithRagStream(String message, String chatId) {
+        return doChatStream(message, chatId, null, true);
+    }
+
+    public String doChatWithTools(String message, String chatId) {
+        ToolCallback[] tools = allToolsProvider.getIfAvailable();
+        ChatResponse response = chatClient
+                .prompt()
+                .user(message)
+                .advisors(spec -> {
+                    if (memoryProperties.isLegacyProvider()) {
+                        spec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)
+                                .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 30);
+                    }
+                })
+                .advisors(new MyLoggerAdvisor())
+                .tools(tools == null ? new ToolCallback[0] : tools)
+                .call()
+                .chatResponse();
+        String content = response.getResult().getOutput().getText();
+        log.info("content: {}", content);
+        return content;
+    }
+
+    public Flux<String> doChatWithToolsStream(String message, String chatId) {
+        ToolCallback[] tools = allToolsProvider.getIfAvailable();
+        return chatClient
+                .prompt()
+                .user(message)
+                .advisors(spec -> {
+                    if (memoryProperties.isLegacyProvider()) {
+                        spec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)
+                                .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 30);
+                    }
+                })
+                .advisors(new MyLoggerAdvisor())
+                .tools(tools == null ? new ToolCallback[0] : tools)
+                .stream()
+                .content();
+    }
+
+    private String doChatWithPgMemory(String message, String chatId, String userId, boolean useRag) {
+        ContextManager contextManager = requireContextManager();
+        ContextPackage contextPackage = contextManager.buildContext(ContextBuildRequest.builder()
+                .userId(userId)
+                .sessionId(chatId)
+                .message(message)
+                .useRag(useRag)
+                .build());
+
+        ChatResponse response = chatClient
+                .prompt()
+                .system(buildSystemWithAugmentation(contextPackage.getAugmentation()))
+                .user(message)
+                .call()
+                .chatResponse();
+        String content = response.getResult().getOutput().getText();
+        log.info("content: {}", content);
+
+        if (StringUtils.hasText(content)) {
+            contextManager.afterRun(contextPackage.getUserId(), contextPackage.getSessionId(), message, content);
+        }
+        return content;
+    }
+
+    private Flux<String> doChatStreamWithPgMemory(String message, String chatId, String userId, boolean useRag) {
+        ContextManager contextManager = requireContextManager();
+        ContextPackage contextPackage = contextManager.buildContext(ContextBuildRequest.builder()
+                .userId(userId)
+                .sessionId(chatId)
+                .message(message)
+                .useRag(useRag)
+                .build());
+
+        StringBuilder fullAnswer = new StringBuilder();
+        return chatClient
+                .prompt()
+                .system(buildSystemWithAugmentation(contextPackage.getAugmentation()))
+                .user(message)
+                .stream()
+                .content()
+                .doOnNext(fullAnswer::append)
+                .doOnComplete(() -> {
+                    String answer = fullAnswer.toString();
+                    if (StringUtils.hasText(answer)) {
+                        contextManager.afterRun(
+                                contextPackage.getUserId(),
+                                contextPackage.getSessionId(),
+                                message,
+                                answer);
+                    }
+                });
+    }
+
+    private String doChatWithRagLegacy(String message, String chatId) {
+        VectorStore vectorStore = parallelLifeVectorStoreProvider.getIfAvailable();
+        if (vectorStore == null) {
+            log.warn("VectorStore 不可用，降级为普通对话");
+            return doChat(message, chatId, null, false);
+        }
         ChatResponse chatResponse = chatClient
                 .prompt()
                 .user(message)
                 .advisors(spec -> spec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)
                         .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 30))
-                // 开启日志，便于观察效果
                 .advisors(new MyLoggerAdvisor())
-                // 应用知识库问答
-                .advisors(new QuestionAnswerAdvisor(parallelLifeVectorStore))
+                .advisors(new QuestionAnswerAdvisor(vectorStore))
                 .call()
                 .chatResponse();
         String content = chatResponse.getResult().getOutput().getText();
@@ -170,59 +298,34 @@ public class ParallelLifeApp {
         return content;
     }
 
-    /**
-     * 流式RAG增强对话：结合知识库进行模拟（流式输出）
-     */
-    public Flux<String> doChatWithRagStream(String message, String chatId) {
+    private Flux<String> doChatWithRagStreamLegacy(String message, String chatId) {
+        VectorStore vectorStore = parallelLifeVectorStoreProvider.getIfAvailable();
+        if (vectorStore == null) {
+            return doChatStream(message, chatId, null, false);
+        }
         return chatClient
                 .prompt()
                 .user(message)
                 .advisors(spec -> spec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)
                         .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 30))
-                // 开启日志，便于观察效果
                 .advisors(new MyLoggerAdvisor())
-                // 应用知识库问答
-                .advisors(new QuestionAnswerAdvisor(parallelLifeVectorStore))
+                .advisors(new QuestionAnswerAdvisor(vectorStore))
                 .stream()
                 .content();
     }
 
-    @Resource
-    private ToolCallback[] allTools;
-
-    /**
-     * 工具调用对话：可以搜索行业数据、生成PDF报告等
-     */
-    public String doChatWithTools(String message, String chatId) {
-        ChatResponse response = chatClient
-                .prompt()
-                .user(message)
-                .advisors(spec -> spec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)
-                        .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 30))
-                // 开启日志，便于观察效果
-                .advisors(new MyLoggerAdvisor())
-                .tools(allTools)
-                .call()
-                .chatResponse();
-        String content = response.getResult().getOutput().getText();
-        log.info("content: {}", content);
-        return content;
+    private ContextManager requireContextManager() {
+        ContextManager contextManager = contextManagerProvider.getIfAvailable();
+        if (contextManager == null) {
+            throw new IllegalStateException("memory.provider=pg 但 ContextManager 未装配");
+        }
+        return contextManager;
     }
 
-    /**
-     * 流式工具调用对话：可以搜索行业数据、生成PDF报告等（流式输出）
-     */
-    public Flux<String> doChatWithToolsStream(String message, String chatId) {
-        return chatClient
-                .prompt()
-                .user(message)
-                .advisors(spec -> spec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)
-                        .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 30))
-                // 开启日志，便于观察效果
-                .advisors(new MyLoggerAdvisor())
-                .tools(allTools)
-                .stream()
-                .content();
+    private static String buildSystemWithAugmentation(String augmentation) {
+        if (!StringUtils.hasText(augmentation)) {
+            return SYSTEM_PROMPT;
+        }
+        return SYSTEM_PROMPT + "\n\n以下是与当前用户相关的记忆与知识，请在回答时优先参考：\n" + augmentation;
     }
 }
-

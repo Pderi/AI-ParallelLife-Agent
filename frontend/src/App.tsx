@@ -98,10 +98,17 @@ function App() {
     <ConfigProvider
       theme={{
         algorithm: isDark ? theme.darkAlgorithm : theme.defaultAlgorithm,
+        token: {
+          colorPrimary: isDark ? '#d4936a' : '#b8734a',
+          colorBgContainer: isDark ? '#2a2927' : '#ffffff',
+          borderRadius: 8,
+          fontFamily:
+            "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif",
+        },
       }}
     >
       <ErrorBoundary>
-        <Layout className="app-layout">
+        <Layout className="app-layout" data-theme={isDark ? 'dark' : 'light'}>
           <Header className="app-header">
             <div className="header-content">
               <h1 className="app-title">{APP_TITLE}</h1>
@@ -113,10 +120,8 @@ function App() {
                   loading={generatingReport}
                   disabled={!currentChatId || messages.length === 0}
                   style={{
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                    border: 'none',
-                    borderRadius: 12,
                     marginRight: 12,
+                    borderRadius: 8,
                   }}
                 >
                   生成报告

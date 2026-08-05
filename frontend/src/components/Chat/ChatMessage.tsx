@@ -50,12 +50,9 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
             size={48}
             icon={isUser ? <UserOutlined /> : <RobotOutlined />}
             style={{
-              background: isUser
-                ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-                : 'linear-gradient(135deg, #52c41a 0%, #73d13d 100%)',
+              background: isUser ? '#3d4f5f' : '#b8734a',
               flexShrink: 0,
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
+              boxShadow: '0 2px 8px rgba(44, 42, 38, 0.12)',
             }}
           />
           <div className="message-body">
